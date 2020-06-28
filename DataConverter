@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jun 27 21:15:34 2020
+
+@author: jntrcs
+"""
+
+# Step 1
+import pickle
+
+ 
+# Step 2
+with open('vertices', 'rb') as file:
+ 
+    # Step 3
+    vertices = pickle.load(file)
+ 
+    # After config_dictionary is read from file
+
+state_to_int = {}
+int_to_state = {}
+
+num = 0 
+for i in vertices.keys():
+    state_to_int[i] = num
+    int_to_state[num] = i
+    num+=1
+    
+    
+    
+ints = {}
+for state in vertices:
+    state_number = state_to_int[state]
+    ints[state_number] = []
+    for child_state in vertices[state]:
+        ints[state_number].append(state_to_int[child_state])
+
+
+with open('vertice_ints', 'wb') as vertice_file:
+      pickle.dump(ints, vertice_file)
+      
+
+with open('int_to_states', 'wb') as vertice_file:
+      pickle.dump(int_to_state, vertice_file)      
+      
+print("done")
