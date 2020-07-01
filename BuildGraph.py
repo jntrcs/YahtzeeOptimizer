@@ -6,7 +6,8 @@ Created on Sat Jun 27 15:35:03 2020
 @author: jntrcs
 """
 
-from GameState import *
+from GameState import GameState
+import pickle
 
 ####Generate all possible vertices from one game card to another
 
@@ -51,3 +52,7 @@ checked = {}
 vertices, checked = check_self_and_all_children(new_game, vertices, checked)
 
 
+with open('vertices', 'wb') as vertice_file:
+      pickle.dump(vertices, vertice_file)
+      
+print("done")

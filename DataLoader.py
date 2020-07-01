@@ -7,6 +7,8 @@ Created on Sat Jun 27 21:48:48 2020
 """
 
 import pickle
+from OuterGraph import OuterGraph
+from Widget import Widget
 
  
 # Step 2
@@ -22,3 +24,7 @@ with open('int_to_states', 'rb') as file:
  
     # Step 3
     key = pickle.load(file)
+    
+
+graph = OuterGraph(key, vertices)
+test_widget = Widget(12, key[12], graph)
