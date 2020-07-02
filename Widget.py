@@ -19,6 +19,7 @@ class Widget:
         self.end_ids = end_ids
         self.outer_graph = outer_graph
         self.inner_widget = self.generate_inner_widget()
+        self.expected_values = self.generate_expected_values()
         
     def generate_inner_widget(self):
         combos = list(combinations_with_replacement([1, 2, 3, 4, 5, 6], 5))
@@ -46,8 +47,91 @@ class Widget:
         state_4 = state_2 #Options to rolls
         
         available = self.outer_graph.getNode(self.start_id).get_available_positions()
+        print(available)
         state_5 ={} #Rolls to card marking
         for key in combos:
             state_5[key]=available
-        return[state_1, state_2, state_3, state_4, state_5]    
+            
+        return[state_1, state_2, state_3, state_4, state_5]   
+            
+        
+        
+    def generate_expected_values(self):
+        state_5 = self.inner_widget[4]
+        expected_values = {}
+        for key, values in state_5.items():
+            yahtzee_bonus = len(set(key))==1 and self.outer_graph.getNode(self.start_id).get_yahtzee()
+            for value in values:
+                if value==0:
+                    expected_values[(key, value)] = key.count(1)
+                elif value==1:
+                    expected_values[(key, value)] = key.count(2)*2
+                elif value==2:
+                    expected_values[(key, value)] = key.count(3)*3
+                elif value==3:
+                    expected_values[(key, value)] = key.count(4)*4
+                elif value==4:
+                    expected_values[(key, value)] = key.count(5)*5
+                elif value==5:
+                    expected_values[(key, value)] = key.count(6)*6
+                elif value==6:
+                    if key.count(1)>2 or key.count(2)>2 or key.count(3)>2 or key.count(4)>2 or key.count(5)>2 or key.count(6)>2:
+                        expected_values[(key, value)] = sum(list(key))
+                    else:
+                        expected_values[(key, value)] = 0
+                elif value==7:
+                    if key.count(1)>3 or key.count(2)>3 or key.count(3)>3 or key.count(4)>3 or key.count(5)>3 or key.count(6)>3:
+                        expected_values[(key, value)] = sum(list(key))
+                    else:
+                        expected_values[(key, value)] = 0
+                elif value==8:
+                    if len(set(key))==2:
+                        most_common = max(set(key), key = key.count)
+                        if key.count(most_common)==3:
+                            expected_values[(key, value)] = 25
+                        else:
+                            expected_values[(key, value)] = 0
+                    else:
+                        expected_values[(key, value)] = 0
+                elif value == 9:
+                    ordered = sorted(set(key))
+                    if len(ordered)<4:
+                        expected_values[(key, value)] = 0
+                    else:
+                        counts = [i-j for i, j in zip(ordered[1:len(ordered)], ordered[0:len(ordered)-1])]
+                        if counts.count(1)>2:
+                            expected_values[(key,value)]=30
+                        else:
+                            expected_values[(key, value)]=0
+                elif value == 10:
+                    ordered = sorted(set(key))
+                    if len(ordered)<5:
+                        expected_values[(key, value)] = 0
+                    else:
+                        counts = [i-j for i, j in zip(ordered[1:len(ordered)], ordered[0:len(ordered)-1])]
+                        if counts.count(1)>3:
+                            expected_values[(key,value)]=40
+                        else:
+                            expected_values[(key, value)]=0    
+                elif value==11:
+                    if len(set(key))==1:
+                        expected_values[(key, value)]=50
+                    else:
+                        expected_values[(key, value)]=0
+                elif value==12:
+                    expected_values[(key, value)]=sum(list(key)) 
+                    
+        return expected_values
+                    
+                    
+
+
+                
+
+                    
+        
+    
+
+#a = Widget(12, vertices[12], OuterGraph(key, vertices))
+
         

@@ -66,5 +66,5 @@ class GameState:
                 self.yahtzee=True
                 
     def get_available_positions(self):
-        [i for i, val in enumerate(self.top) if val] + [i+6 for i, val in enumerate(self.bottom) if val]
+        return([i for i, val in enumerate(self.top) if not val] + [i+6 for i, val in enumerate(self.bottom) if not val])
     
