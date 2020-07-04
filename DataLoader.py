@@ -34,7 +34,7 @@ for keys, vals in vertices.items():
     if 14 in vals:
         print(keys)
         
-print(key[16])
+print(key[109])
 
-bw = Widget(135181, key[135181], graph)
-evs = bw.generate_expected_values()
+bw = Widget(109, key[109], graph)
+evs = bw.get_expected_values()

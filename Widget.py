@@ -21,6 +21,9 @@ class Widget:
         self.inner_widget = self.generate_inner_widget()
         self.expected_values = self.generate_expected_values()
         
+    def get_expected_values(self):
+        return(self.expected_values)
+        
     def generate_inner_widget(self):
         combos = list(combinations_with_replacement([1, 2, 3, 4, 5, 6], 5))
         
@@ -137,6 +140,7 @@ class Widget:
                     else:
                         expected_values[(key, value)]=0
                 elif value==12:
+                    print("ran")
                     expected_values[(key, value)]=sum(list(key)) 
                 if yahtzee_bonus:
                     expected_values[(key, value)]=100+expected_values[(key, value)]
