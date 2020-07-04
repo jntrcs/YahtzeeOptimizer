@@ -26,7 +26,7 @@ def findVertices(state, vertices):
     for i in range(7):
         if not bottom[i]:
             vertices[state].append(state.mark_bottom(i))
-            if i ==6:
+            if i ==5:
                vertices[state].append(state.mark_bottom(i, True))
     return vertices
 

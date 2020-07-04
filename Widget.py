@@ -47,10 +47,22 @@ class Widget:
         state_4 = state_2 #Options to rolls
         
         available = self.outer_graph.getNode(self.start_id).get_available_positions()
-        print(available)
         state_5 ={} #Rolls to card marking
+        first_yahtzee = self.outer_graph.getNode(self.start_id).get_yahtzee()
         for key in combos:
+            ##Rules: if upper section is available, it must go in that section
+            ##If not, it must go in 3 or 4 of a kind.
+            ##If not, it can go in any other spot, scoring full points for full house, small straight, or LS
+            ##And the regular amount of points otherwise
+            if first_yahtzee and len(set(key))==1:
+                if key[0] - 1 in available:
+                    available = [key[0]-1]
+                elif 7 in available:
+                    available=[7]
+                elif 6 in available:
+                    available = [6]
             state_5[key]=available
+
             
         return[state_1, state_2, state_3, state_4, state_5]   
             
@@ -91,6 +103,8 @@ class Widget:
                             expected_values[(key, value)] = 25
                         else:
                             expected_values[(key, value)] = 0
+                    elif yahtzee_bonus:
+                        expected_values[(key, value)] = 25
                     else:
                         expected_values[(key, value)] = 0
                 elif value == 9:
@@ -103,6 +117,8 @@ class Widget:
                             expected_values[(key,value)]=30
                         else:
                             expected_values[(key, value)]=0
+                    if yahtzee_bonus:
+                        expected_values[(key, value)]=30
                 elif value == 10:
                     ordered = sorted(set(key))
                     if len(ordered)<5:
@@ -113,6 +129,8 @@ class Widget:
                             expected_values[(key,value)]=40
                         else:
                             expected_values[(key, value)]=0    
+                    if yahtzee_bonus:
+                        expected_values[(key, value)]=40
                 elif value==11:
                     if len(set(key))==1:
                         expected_values[(key, value)]=50
@@ -120,6 +138,8 @@ class Widget:
                         expected_values[(key, value)]=0
                 elif value==12:
                     expected_values[(key, value)]=sum(list(key)) 
+                if yahtzee_bonus:
+                    expected_values[(key, value)]=100+expected_values[(key, value)]
                     
         return expected_values
                     

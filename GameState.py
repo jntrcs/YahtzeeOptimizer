@@ -61,10 +61,11 @@ class GameState:
     
     def update_bottom(self, which, got_yahtzee=False):
         self.bottom[which] = True 
-        if which == 6:
+        if which == 5:
             if got_yahtzee:
                 self.yahtzee=True
                 
     def get_available_positions(self):
+        
         return([i for i, val in enumerate(self.top) if not val] + [i+6 for i, val in enumerate(self.bottom) if not val])
     

@@ -29,3 +29,12 @@ with open('int_to_states', 'rb') as file:
 graph = OuterGraph(key, vertices)
 test_widget = Widget(1, key[1], graph)
 evs = test_widget.generate_expected_values()
+
+for keys, vals in vertices.items():
+    if 14 in vals:
+        print(keys)
+        
+print(key[16])
+
+bw = Widget(135181, key[135181], graph)
+evs = bw.generate_expected_values()
