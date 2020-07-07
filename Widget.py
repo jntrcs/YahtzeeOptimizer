@@ -18,8 +18,10 @@ class Widget:
         self.start_id = start_id
         self.end_ids = end_ids
         self.outer_graph = outer_graph
+        self.top_score = outer_graph.getNode(start_id).get_top_score()
         self.inner_widget = self.generate_inner_widget()
         self.expected_values = self.generate_expected_values()
+        
         
     def get_expected_values(self):
         return(self.expected_values)
@@ -69,7 +71,9 @@ class Widget:
             
         return[state_1, state_2, state_3, state_4, state_5]   
             
-        
+    
+    def process(self):
+        return(0)
         
     def generate_expected_values(self):
         state_5 = self.inner_widget[4]
@@ -79,16 +83,28 @@ class Widget:
             for value in values:
                 if value==0:
                     expected_values[(key, value)] = key.count(1)
+                    if self.top_score < 63 and self.top_score+key.count(1)>=63:
+                        expected_values[(key, value)] = self.top_score+key.count(1) +35
                 elif value==1:
                     expected_values[(key, value)] = key.count(2)*2
+                    if self.top_score < 63 and self.top_score+key.count(2)*2>=63:
+                        expected_values[(key, value)] = self.top_score+key.count(2)*2 +35
                 elif value==2:
                     expected_values[(key, value)] = key.count(3)*3
+                    if self.top_score < 63 and self.top_score+key.count(3)*3>=63:
+                        expected_values[(key, value)] = self.top_score+key.count(3)*3+35
                 elif value==3:
                     expected_values[(key, value)] = key.count(4)*4
+                    if self.top_score < 63 and self.top_score+key.count(4)*4>=63:
+                        expected_values[(key, value)] = self.top_score+key.count(4)*4+35
                 elif value==4:
                     expected_values[(key, value)] = key.count(5)*5
+                    if self.top_score < 63 and self.top_score+key.count(5)*5>=63:
+                        expected_values[(key, value)] = self.top_score+key.count(5)*5+35
                 elif value==5:
                     expected_values[(key, value)] = key.count(6)*6
+                    if self.top_score < 63 and self.top_score+key.count(6)*6>=63:
+                        expected_values[(key, value)] = self.top_score+key.count(6)*6+35
                 elif value==6:
                     if key.count(1)>2 or key.count(2)>2 or key.count(3)>2 or key.count(4)>2 or key.count(5)>2 or key.count(6)>2:
                         expected_values[(key, value)] = sum(list(key))
@@ -140,7 +156,6 @@ class Widget:
                     else:
                         expected_values[(key, value)]=0
                 elif value==12:
-                    print("ran")
                     expected_values[(key, value)]=sum(list(key)) 
                 if yahtzee_bonus:
                     expected_values[(key, value)]=100+expected_values[(key, value)]

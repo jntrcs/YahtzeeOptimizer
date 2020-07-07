@@ -16,3 +16,18 @@ class OuterGraph:
         
     def getNode(self, integer):
         return(self.key[integer])
+    
+    def generate_FEVs(self):
+        done_list = []
+        FEVs = {}
+        for k, v in self.vertices.items():
+            if len(v)==0:
+                done_list.append(k)
+                FEVs[k]=0
+                
+        while(len(done_list)<len(vertices)):
+            for k, v in vertices.items():
+                if all(elem in done_list  for elem in v):
+                    FEVs[k] = Widget(k, self.vertices[k], self).process()
+                    done_list.append(k)
+                    

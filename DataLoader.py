@@ -30,11 +30,11 @@ graph = OuterGraph(key, vertices)
 test_widget = Widget(1, key[1], graph)
 evs = test_widget.generate_expected_values()
 
-for keys, vals in vertices.items():
-    if 14 in vals:
-        print(keys)
+for k, vals in vertices.items():
+    if 15375 in vals:
+        print(k)
         
-print(key[109])
+print(key[138830])
 
-bw = Widget(109, key[109], graph)
+bw = Widget(138830, key[138830], graph)
 evs = bw.get_expected_values()
